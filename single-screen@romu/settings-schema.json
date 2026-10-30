@@ -1,0 +1,7 @@
+{
+    "keybinding": {
+        "type": "keybinding",
+        "default": "<Super>p",
+        "description": "Shortcut to open the menu"
+    }
+}

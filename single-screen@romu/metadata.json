@@ -1,0 +1,7 @@
+{
+    "uuid": "single-screen@romu",
+    "name": "Single Screen",
+    "description": "Switch between your multi-monitor layout and a single display (like Windows+P)",
+    "icon": "video-display",
+    "max-instances": 1
+}
