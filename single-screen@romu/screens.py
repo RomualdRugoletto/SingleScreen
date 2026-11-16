@@ -6,6 +6,7 @@ through Muffin's D-Bus API (the one used by Cinnamon's "Display" settings panel)
   screens.py single CONNECTOR  -> saves the current layout, then enables CONNECTOR only
   screens.py restore           -> reapplies the saved layout (or extends side by side)
 """
+import gettext
 import json
 import os
 import sys
@@ -19,6 +20,9 @@ BUS_NAME = "org.cinnamon.Muffin.DisplayConfig"
 OBJ_PATH = "/org/cinnamon/Muffin/DisplayConfig"
 METHOD_TEMPORARY = 1  # not written to cinnamon-monitors.xml, no confirmation dialog
 SAVE_FILE = os.path.join(GLib.get_user_config_dir(), "single-screen", "saved.json")
+
+_ = gettext.translation("single-screen@romu", os.path.join(GLib.get_home_dir(), ".local/share/locale"),
+                        fallback=True).gettext
 
 
 def proxy():
@@ -136,11 +140,11 @@ def main(argv):
 
     if cmd == "single":
         if len(argv) < 3:
-            print("usage: screens.py single CONNECTOR", file=sys.stderr)
+            print(_("usage: screens.py single CONNECTOR"), file=sys.stderr)
             return 2
         target = next((m for m in monitors if m[0][0] == argv[2]), None)
         if target is None:
-            print(f"unknown monitor: {argv[2]}", file=sys.stderr)
+            print(_("unknown monitor: %s") % argv[2], file=sys.stderr)
             return 1
         # Only multi-monitor layouts are saved: switching from one single display
         # to another must not overwrite the layout to restore.
@@ -158,7 +162,7 @@ def main(argv):
         apply(p, serial, props, load_saved(monitors) or side_by_side(monitors, logical, props))
         return 0
 
-    print(f"unknown command: {cmd}", file=sys.stderr)
+    print(_("unknown command: %s") % cmd, file=sys.stderr)
     return 2
 
 

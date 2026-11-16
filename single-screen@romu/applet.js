@@ -1,11 +1,20 @@
-const St = imports.gi.St;
+const Gtk = imports.gi.Gtk;
+const GLib = imports.gi.GLib;
+const Gettext = imports.gettext;
 const Applet = imports.ui.applet;
 const PopupMenu = imports.ui.popupMenu;
 const Settings = imports.ui.settings;
 const Main = imports.ui.main;
 const Util = imports.misc.util;
 
+const UUID = "single-screen@romu";
 const HOTKEY_ID = "single-screen-menu";
+
+Gettext.bindtextdomain(UUID, GLib.get_home_dir() + "/.local/share/locale");
+
+function _(str) {
+    return Gettext.dgettext(UUID, str);
+}
 
 class SingleScreenApplet extends Applet.IconApplet {
     constructor(metadata, orientation, panelHeight, instanceId) {
@@ -13,7 +22,7 @@ class SingleScreenApplet extends Applet.IconApplet {
         this.script = metadata.path + "/screens.py";
 
         this.set_applet_icon_symbolic_name("video-display");
-        this.set_applet_tooltip("Display configuration");
+        this.set_applet_tooltip(_("Display configuration"));
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
         this.menu = new Applet.AppletPopupMenu(this, orientation);
@@ -31,7 +40,7 @@ class SingleScreenApplet extends Applet.IconApplet {
     _run(args, callback) {
         Util.spawnCommandLineAsyncIO(null, (stdout, stderr, exitCode) => {
             if (exitCode !== 0)
-                Main.notify("Single Screen", stderr || "Command failed: " + args.join(" "));
+                Main.notify(_("Single Screen"), stderr || _("Command failed: ") + args.join(" "));
             else if (callback)
                 callback(stdout);
         }, { argv: ["python3", this.script].concat(args) });
@@ -42,7 +51,7 @@ class SingleScreenApplet extends Applet.IconApplet {
         this._run(["status"], (stdout) => {
             this._buildMenu(JSON.parse(stdout));
             this.menu.open(true);
-            this.menu.actor.navigate_focus(null, St.DirectionType.TAB_FORWARD, false);
+            this.menu.actor.navigate_focus(null, Gtk.DirectionType.TAB_FORWARD, false);
         });
     }
 
@@ -50,7 +59,7 @@ class SingleScreenApplet extends Applet.IconApplet {
         this.menu.removeAll();
         const active = status.monitors.filter(m => m.active);
 
-        const extend = new PopupMenu.PopupMenuItem("Extend (all displays)");
+        const extend = new PopupMenu.PopupMenuItem(_("Extend (all displays)"));
         extend.setSensitive(status.monitors.length > 1);
         if (active.length > 1)
             extend.setOrnament(PopupMenu.OrnamentType.DOT, true);
@@ -60,7 +69,7 @@ class SingleScreenApplet extends Applet.IconApplet {
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
         for (const monitor of status.monitors) {
-            const item = new PopupMenu.PopupMenuItem(monitor.name + " only");
+            const item = new PopupMenu.PopupMenuItem(_("%s only").format(monitor.name));
             if (active.length === 1 && monitor.active)
                 item.setOrnament(PopupMenu.OrnamentType.DOT, true);
             item.connect("activate", () => this._run(["single", monitor.connector]));

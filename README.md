@@ -15,14 +15,17 @@ It is keyboard-navigable (arrows + `Enter`, `Esc` to close).
 ## Installation
 
 ```bash
-./install.sh      # symlinks the applet into ~/.local/share/cinnamon/applets
+./install.sh      # symlinks the applet into ~/.local/share/cinnamon/applets, compiles translations
 ./uninstall.sh    # --purge also deletes the saved layout and the applet settings
 ```
 
 Then add the applet to a panel: *System Settings → Applets → Single Screen*.
 The shortcut can be changed in the applet settings.
 
-Requirements: Cinnamon (Muffin) with Python 3 and PyGObject, both shipped with Linux Mint.
+Rerun `./install.sh` after editing a translation.
+
+Requirements: Cinnamon (Muffin) with Python 3 and PyGObject, both shipped with Linux Mint,
+and `msgfmt` (gettext) to compile translations.
 
 ## Behavior
 
@@ -41,6 +44,7 @@ Requirements: Cinnamon (Muffin) with Python 3 and PyGObject, both shipped with L
 single-screen@romu/applet.js              panel applet: icon, menu, global shortcut
 single-screen@romu/screens.py             CLI talking to Muffin's D-Bus API (org.cinnamon.Muffin.DisplayConfig)
 single-screen@romu/settings-schema.json   applet settings (shortcut)
+single-screen@romu/po/                    translations (gettext, domain = applet UUID); French available
 ```
 
 `screens.py` can also be used on its own:

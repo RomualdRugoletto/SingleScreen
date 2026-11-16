@@ -1,0 +1,50 @@
+# French translation of Single Screen.
+msgid ""
+msgstr ""
+"Project-Id-Version: single-screen@romu\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# metadata.json->name
+msgid "Single Screen"
+msgstr "Écran unique"
+
+# metadata.json->description
+msgid "Switch between your multi-monitor layout and a single display (like Windows+P)"
+msgstr "Bascule entre la configuration multi-écran et un seul écran (façon Windows+P)"
+
+# settings-schema.json->keybinding->description
+msgid "Shortcut to open the menu"
+msgstr "Raccourci pour ouvrir le menu"
+
+#: applet.js
+msgid "Display configuration"
+msgstr "Configuration des écrans"
+
+#: applet.js
+msgid "Command failed: "
+msgstr "Échec de la commande "
+
+#: applet.js
+msgid "Extend (all displays)"
+msgstr "Étendre (tous les écrans)"
+
+#. %s is the monitor name
+#: applet.js
+msgid "%s only"
+msgstr "%s seul"
+
+#: screens.py
+msgid "usage: screens.py single CONNECTOR"
+msgstr "usage: screens.py single CONNECTEUR"
+
+#: screens.py
+msgid "unknown monitor: %s"
+msgstr "écran inconnu: %s"
+
+#: screens.py
+msgid "unknown command: %s"
+msgstr "commande inconnue: %s"
